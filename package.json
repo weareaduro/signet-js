@@ -1,5 +1,5 @@
 {
-  "name": "@weareaduro/signet",
+  "name": "@weareaduro/signet-js",
   "version": "0.1.0",
   "description": "Signet client for any application. Fluent apps keep using @weareaduro/fluent-shared for UI and app context.",
   "license": "ISC",
