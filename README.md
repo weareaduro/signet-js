@@ -53,6 +53,6 @@ The builders match the Signet resource routes. They include:
 - Organisation billing: `organisationBalance`, `listTransactions`, `recordTransaction`, `invoices`, `raiseInvoice`, `paymentMethods`, `setupIntent`, `setDefaultPaymentMethod`, `deletePaymentMethod`, `paymentIntent`, `billingStripe`, `stripeProxy`
 - The tenant's own platform subscription: `tenantSubscription`, `cancelSubscription`, `confirmTenantSubscription`
 
-`paymentIntent` sends `client` and `organisation` so a later Stripe webhook can credit that organisation. `recordTransaction` is how a product posts a debit or credit after it has handled a charge itself.
+`paymentIntent` sends `client` and the Stripe `customerId`. The webhook credits the organisation in that tenant whose Stripe customer id matches. It does not put the organisation id on the payment intent. A payment intent that Stripe created for a subscription invoice is recorded from that invoice instead. `recordTransaction` is how a product posts a debit or credit after it has handled a charge itself.
 
 Pass `tenant: true` to `invoices` and `paymentMethods` to read the tenant's own Stripe customer. Those calls list the platform subscription's invoices and cards. Organisation invoices and transactions are a different ledger, addressed by `organisationId`.

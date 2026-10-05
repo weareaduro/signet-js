@@ -329,7 +329,6 @@ export const signet = {
     currency: string;
     customerId: string;
     description?: string;
-    organisation: string;
     paymentMethodId: string;
   }): SignetOperation => operation('/api/resources/payment-intents', { method: 'POST', body }),
 
