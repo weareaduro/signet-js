@@ -1,7 +1,7 @@
 {
   "name": "@weareaduro/signet-js",
   "version": "0.1.0",
-  "description": "Signet client for any application. Fluent apps keep using @weareaduro/fluent-shared for UI and app context.",
+  "description": "Protocol client for the Signet resource API. No React dependency, so any application can call Signet.",
   "license": "ISC",
   "type": "module",
   "exports": {
