@@ -80,7 +80,7 @@ export const signet = {
     organisationId: string;
     role?: string;
   }): SignetOperation =>
-    operation(`/api/resources/organisations/${organisationId}/members${search({ client })}`, {
+    operation(`/api/resources/organisations/${organisationId}/members${search({ client_id: client })}`, {
       method: 'POST',
       body: {
         email,
@@ -182,7 +182,7 @@ export const signet = {
     client?: string;
     organisationId: string;
   }): SignetOperation =>
-    operation(`/api/resources/organisations/${organisationId}/terms${client ? `?client=${encodeURIComponent(client)}` : ''}`),
+    operation(`/api/resources/organisations/${organisationId}/terms${search({ client_id: client })}`),
 
   patchOrganisationTerms: ({
     body,
@@ -196,7 +196,7 @@ export const signet = {
     operation(`/api/resources/organisations/${organisationId}/terms/${termsId}`, { method: 'PATCH', body }),
 
   tenantTerms: ({ client }: { client?: string } = {}): SignetOperation =>
-    operation(`/api/resources/tenants/current/terms${client ? `?client=${encodeURIComponent(client)}` : ''}`),
+    operation(`/api/resources/tenants/current/terms${search({ client_id: client })}`),
 
   tenantMsa: (): SignetOperation => operation('/api/resources/tenants/current/msa'),
 
@@ -253,7 +253,7 @@ export const signet = {
     operation(
       tenant
         ? '/api/resources/tenants/current/invoices'
-        : `/api/resources/organisations/${organisationId ?? ''}/invoices${search({ client })}`,
+        : `/api/resources/organisations/${organisationId ?? ''}/invoices${search({ client_id: client })}`,
     ),
 
   listMembers: ({
@@ -263,12 +263,12 @@ export const signet = {
     client?: string;
     organisationId: string;
   }): SignetOperation =>
-    operation(`/api/resources/organisations/${organisationId}/members${search({ client })}`),
+    operation(`/api/resources/organisations/${organisationId}/members${search({ client_id: client })}`),
 
   listOrganisations: (): SignetOperation => operation('/api/resources/organisations'),
 
   listRoles: ({ client, organisationId }: { client: string; organisationId?: string }): SignetOperation =>
-    operation(`/api/resources/roles${search({ client, organisation: organisationId })}`),
+    operation(`/api/resources/roles${search({ client_id: client, organisation: organisationId })}`),
 
   listIntegrations: (): SignetOperation => operation('/api/resources/tenants/current/integrations'),
 
@@ -307,7 +307,7 @@ export const signet = {
     client: string;
     organisationId: string;
   }): SignetOperation =>
-    operation(`/api/resources/organisations/${organisationId}/transactions/balance${search({ client })}`),
+    operation(`/api/resources/organisations/${organisationId}/transactions/balance${search({ client_id: client })}`),
 
   passwordGrant: ({
     clientId,
@@ -431,7 +431,7 @@ export const signet = {
     userUuid: string;
   }): SignetOperation =>
     operation(
-      `/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client })}`,
+      `/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client_id: client })}`,
       { method: 'DELETE' },
     ),
 
@@ -547,7 +547,7 @@ export const signet = {
     role: string;
     userUuid: string;
   }): SignetOperation =>
-    operation(`/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client })}`, {
+    operation(`/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client_id: client })}`, {
       method: 'PATCH',
       body: { ...(client ? { client } : {}), role },
     }),

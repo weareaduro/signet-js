@@ -43,7 +43,7 @@ var signet = {
     lastName,
     organisationId,
     role
-  }) => operation(`/api/resources/organisations/${organisationId}/members${search({ client })}`, {
+  }) => operation(`/api/resources/organisations/${organisationId}/members${search({ client_id: client })}`, {
     method: "POST",
     body: {
       email,
@@ -105,13 +105,13 @@ var signet = {
   organisationTerms: ({
     client,
     organisationId
-  }) => operation(`/api/resources/organisations/${organisationId}/terms${client ? `?client=${encodeURIComponent(client)}` : ""}`),
+  }) => operation(`/api/resources/organisations/${organisationId}/terms${search({ client_id: client })}`),
   patchOrganisationTerms: ({
     body,
     organisationId,
     termsId
   }) => operation(`/api/resources/organisations/${organisationId}/terms/${termsId}`, { method: "PATCH", body }),
-  tenantTerms: ({ client } = {}) => operation(`/api/resources/tenants/current/terms${client ? `?client=${encodeURIComponent(client)}` : ""}`),
+  tenantTerms: ({ client } = {}) => operation(`/api/resources/tenants/current/terms${search({ client_id: client })}`),
   tenantMsa: () => operation("/api/resources/tenants/current/msa"),
   createTenant: (body) => operation("/api/resources/tenants", { method: "POST", body }),
   createUser: (body) => operation("/api/resources/users", { method: "POST", body }),
@@ -131,14 +131,14 @@ var signet = {
     organisationId,
     tenant
   }) => operation(
-    tenant ? "/api/resources/tenants/current/invoices" : `/api/resources/organisations/${organisationId ?? ""}/invoices${search({ client })}`
+    tenant ? "/api/resources/tenants/current/invoices" : `/api/resources/organisations/${organisationId ?? ""}/invoices${search({ client_id: client })}`
   ),
   listMembers: ({
     client,
     organisationId
-  }) => operation(`/api/resources/organisations/${organisationId}/members${search({ client })}`),
+  }) => operation(`/api/resources/organisations/${organisationId}/members${search({ client_id: client })}`),
   listOrganisations: () => operation("/api/resources/organisations"),
-  listRoles: ({ client, organisationId }) => operation(`/api/resources/roles${search({ client, organisation: organisationId })}`),
+  listRoles: ({ client, organisationId }) => operation(`/api/resources/roles${search({ client_id: client, organisation: organisationId })}`),
   listIntegrations: () => operation("/api/resources/tenants/current/integrations"),
   saveIntegration: ({
     body,
@@ -155,7 +155,7 @@ var signet = {
   organisationBalance: ({
     client,
     organisationId
-  }) => operation(`/api/resources/organisations/${organisationId}/transactions/balance${search({ client })}`),
+  }) => operation(`/api/resources/organisations/${organisationId}/transactions/balance${search({ client_id: client })}`),
   passwordGrant: ({
     clientId,
     password,
@@ -220,7 +220,7 @@ var signet = {
     organisationId,
     userUuid
   }) => operation(
-    `/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client })}`,
+    `/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client_id: client })}`,
     { method: "DELETE" }
   ),
   removeRoleClaim: ({
@@ -280,7 +280,7 @@ var signet = {
     organisationId,
     role,
     userUuid
-  }) => operation(`/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client })}`, {
+  }) => operation(`/api/resources/organisations/${organisationId}/members/${userUuid}${search({ client_id: client })}`, {
     method: "PATCH",
     body: { ...client ? { client } : {}, role }
   }),
