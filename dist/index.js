@@ -310,7 +310,8 @@ var performSignet = async ({
 }) => {
   const headers = new Headers();
   headers.set("accept", "application/json");
-  if (token && (typeof window === "undefined" || window.location.hostname.includes("localhost"))) {
+  const hostname = globalThis.location?.hostname;
+  if (token && (typeof hostname !== "string" || hostname.includes("localhost"))) {
     headers.set("authorization", token.startsWith("Bearer ") ? token : `Bearer ${token}`);
   }
   if (tenantId) headers.set("cookie", `signet-tenant=${encodeURIComponent(tenantId)}`);

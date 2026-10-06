@@ -602,7 +602,9 @@ export const performSignet = async <T>({
 
   headers.set('accept', 'application/json');
 
-  if (token && (typeof window === 'undefined' || window.location.hostname.includes('localhost'))) {
+  const hostname = (globalThis as { location?: { hostname?: string } }).location?.hostname;
+
+  if (token && (typeof hostname !== 'string' || hostname.includes('localhost'))) {
     headers.set('authorization', token.startsWith('Bearer ') ? token : `Bearer ${token}`);
   }
 
