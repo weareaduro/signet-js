@@ -602,7 +602,9 @@ export const performSignet = async <T>({
 
   headers.set('accept', 'application/json');
 
-  if (token) headers.set('authorization', token.startsWith('Bearer ') ? token : `Bearer ${token}`);
+  if (token && (typeof window === 'undefined' || window.location.hostname.includes('localhost'))) {
+    headers.set('authorization', token.startsWith('Bearer ') ? token : `Bearer ${token}`);
+  }
 
   if (tenantId) headers.set('cookie', `signet-tenant=${encodeURIComponent(tenantId)}`);
 
