@@ -375,6 +375,8 @@ export const signet = {
       },
     }),
 
+  profile: (): SignetOperation => operation('/oauth/me'),
+
   providers: ({ clientId }: { clientId?: string } = {}): SignetOperation =>
     operation(`/oauth/providers${search({ client_id: clientId })}`),
 
