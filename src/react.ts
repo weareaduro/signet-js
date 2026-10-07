@@ -1,5 +1,5 @@
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
-import { createContext, createElement, useContext, type ReactNode } from 'react';
+import { createContext, createElement, useCallback, useContext, useMemo, type ReactNode } from 'react';
 
 import { performSignet, SignetError, type SignetOperation } from './index';
 
@@ -17,8 +17,14 @@ export const SignetClientProvider = ({
   endpoint,
   onUnauthenticated,
   token,
-}: SignetClientConfig & { children: ReactNode }) =>
-  createElement(SignetClientContext.Provider, { value: { endpoint, onUnauthenticated, token } }, children);
+}: SignetClientConfig & { children: ReactNode }) => {
+  const value = useMemo(
+    () => ({ endpoint, onUnauthenticated, token }),
+    [endpoint, onUnauthenticated, token],
+  );
+
+  return createElement(SignetClientContext.Provider, { value }, children);
+};
 
 const useSignetClient = (): SignetClientConfig => {
   const config = useContext(SignetClientContext);
@@ -66,8 +72,11 @@ export const useSignetSuspenseQuery = <T,>(key: readonly unknown[], operation: S
 };
 
 /** Writes to Signet and logs out when the response is 401. */
-export const useSignetMutation = () => {
+export const useSignetMutation = (): (<T>(operation: SignetOperation) => Promise<T>) => {
   const config = useSignetClient();
 
-  return <T,>(operation: SignetOperation): Promise<T> => readSignet<T>(config, operation);
+  return useCallback(
+    <T,>(operation: SignetOperation) => readSignet<T>(config, operation),
+    [config],
+  ) as <T>(operation: SignetOperation) => Promise<T>;
 };

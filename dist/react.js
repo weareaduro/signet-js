@@ -1,6 +1,6 @@
 // src/react.ts
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { createContext, createElement, useContext } from "react";
+import { createContext, createElement, useCallback, useContext, useMemo } from "react";
 
 // src/index.ts
 var SignetError = class extends Error {
@@ -61,7 +61,13 @@ var SignetClientProvider = ({
   endpoint,
   onUnauthenticated,
   token
-}) => createElement(SignetClientContext.Provider, { value: { endpoint, onUnauthenticated, token } }, children);
+}) => {
+  const value = useMemo(
+    () => ({ endpoint, onUnauthenticated, token }),
+    [endpoint, onUnauthenticated, token]
+  );
+  return createElement(SignetClientContext.Provider, { value }, children);
+};
 var useSignetClient = () => {
   const config = useContext(SignetClientContext);
   if (!config) throw new Error("SignetClientProvider is required");
@@ -96,7 +102,10 @@ var useSignetSuspenseQuery = (key, operation) => {
 };
 var useSignetMutation = () => {
   const config = useSignetClient();
-  return (operation) => readSignet(config, operation);
+  return useCallback(
+    (operation) => readSignet(config, operation),
+    [config]
+  );
 };
 export {
   SignetClientProvider,
