@@ -9,6 +9,11 @@
       "types": "./src/index.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./src/react.ts",
+      "import": "./dist/react.js",
+      "default": "./dist/react.js"
     }
   },
   "files": [
@@ -20,5 +25,17 @@
   },
   "devDependencies": {
     "esbuild": "^0.28.2"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "react": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
   }
 }
