@@ -191,7 +191,8 @@ var signet = {
       ...tenantId ? { tenant_id: tenantId } : {}
     }
   }),
-  profile: () => operation("/oauth/me"),
+  connections: () => operation("/oauth/connections"),
+  profile: () => operation("/oauth/userinfo"),
   providers: ({ clientId } = {}) => operation(`/oauth/providers${search({ client_id: clientId })}`),
   readMe: () => operation("/api/resources/users/me"),
   readOrganisation: ({ organisationId }) => operation(`/api/resources/organisations/${organisationId}`),
